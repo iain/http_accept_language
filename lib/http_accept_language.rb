@@ -9,7 +9,7 @@ module HttpAcceptLanguage
       raise "Not correctly formatted" unless x.first =~ /^[a-z\-]+$/i
       y.last.to_f <=> x.last.to_f
     end.collect do |l|
-      l.first.gsub(/-[a-z]+$/i){|x| x.upcase} 
+      l.first.downcase.gsub(/-[a-z]+$/i){|x| x.upcase} 
     end
   rescue
     []
