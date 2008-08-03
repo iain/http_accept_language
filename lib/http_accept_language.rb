@@ -14,4 +14,7 @@ module HttpAcceptLanguage
   rescue
     []
   end
+  def preferred_language_from(array)
+    (user_preferred_languages & array).first
+  end
 end

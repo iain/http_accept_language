@@ -28,6 +28,10 @@ class HttpAcceptLanguageTest < Test::Unit::TestCase
     assert_equal [], request.user_preferred_languages
   end
 
+  def test_should_find_first_available_language
+    assert_equal 'en-GB', request.preferred_language_from(%w{en en-GB})
+  end
+
   private
   def request
     @request ||= MockedCgiRequest.new
