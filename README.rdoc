@@ -1,6 +1,6 @@
 = HttpAcceptLanguage
 
-A small effort in making a plugin which helps you detect the users prefered language, as sent by the HTTP header.
+A small effort in making a plugin which helps you detect the users preferred language, as sent by the HTTP header.
 
 = Features
 
@@ -9,7 +9,7 @@ A small effort in making a plugin which helps you detect the users prefered lang
 * Corrects case to xx-XX
 * Sorted by priority given, as much as possible.
 * Gives you the most important language
-
+* Gives compatible languages
 See also: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
 
 = Example
@@ -24,6 +24,11 @@ See also: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
       request.preferred_language_from(available)
       # => 'nl-BE'
       
+      request.user_preferred_language
+      # => [ 'en-GB']
+      available = %w{en-US}
+      request.compatible_language_from(available)
+      # => 'en-US'
     end
   end
 

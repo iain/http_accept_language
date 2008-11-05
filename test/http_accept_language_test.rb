@@ -33,8 +33,8 @@ class HttpAcceptLanguageTest < Test::Unit::TestCase
   end
 
   def test_should_find_first_compatible_language
-    assert_equal 'en-hk', request.combatible_language_from(%w{en-hk})
-    assert_equal 'en', request.combatible_language_from(%w{en})
+    assert_equal 'en-hk', request.compatible_language_from(%w{en-hk})
+    assert_equal 'en', request.compatible_language_from(%w{en})
   end
   
 
