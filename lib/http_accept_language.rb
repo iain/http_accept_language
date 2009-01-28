@@ -14,6 +14,7 @@ module HttpAcceptLanguage
   rescue
     []
   end
+
   def preferred_language_from(array)
     (user_preferred_languages & array.collect { |i| i.to_s }).first
   end
@@ -21,6 +22,4 @@ module HttpAcceptLanguage
   def compatible_language_from(array)
     array.select{|x| lang = x.to_s.split("-")[0]; user_preferred_languages.any?{|y| y.to_s.split("-")[0] == lang }}.first
   end
-  
-  
 end

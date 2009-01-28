@@ -10,10 +10,6 @@ class MockedCgiRequest
 end
 
 class HttpAcceptLanguageTest < Test::Unit::TestCase
-
-  def setup
-  end
-
   def test_should_return_empty_array
     request.env['HTTP_ACCEPT_LANGUAGE'] = nil
     assert_equal [], request.user_preferred_languages
@@ -36,7 +32,6 @@ class HttpAcceptLanguageTest < Test::Unit::TestCase
     assert_equal 'en-hk', request.compatible_language_from(%w{en-hk})
     assert_equal 'en', request.compatible_language_from(%w{en})
   end
-  
 
   private
   def request
