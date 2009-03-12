@@ -32,5 +32,8 @@ See also: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
     end
   end
 
+= Changenotes
+
+2009-03-12: Rails 2.3 compatible
 
 Copyright (c) 2008 Iain Hecker, released under the MIT license
