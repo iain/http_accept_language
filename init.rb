@@ -1,1 +1,1 @@
-ActionController::AbstractRequest.send :include, HttpAcceptLanguage
+ActionController::Request.send :include, HttpAcceptLanguage
