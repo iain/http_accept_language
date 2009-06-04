@@ -24,7 +24,7 @@ See also: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
       request.preferred_language_from(available)
       # => 'nl-BE'
       
-      request.user_preferred_language
+      request.user_preferred_languages
       # => [ 'en-GB']
       available = %w{en-US}
       request.compatible_language_from(available)
