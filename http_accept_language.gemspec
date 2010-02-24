@@ -9,25 +9,26 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Iain Hecker"]
-  s.date = %q{2010-01-05}
+  s.date = %q{2010-02-24}
   s.description = %q{Find out which locale the user preferes by reading the languages they specified in their browser}
   s.email = %q{iain@iain.nl}
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
   s.files = [
-    "README.rdoc",
+    ".gitignore",
+     "README.rdoc",
      "Rakefile",
      "VERSION",
+     "http_accept_language.gemspec",
      "lib/http_accept_language.rb",
      "rails/init.rb",
-     "tasks/http_accept_language_tasks.rake",
      "test/http_accept_language_test.rb"
   ]
   s.homepage = %q{http://github.com/iain/http_accept_language}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Parse the HTTP Accept Language Header}
   s.test_files = [
     "test/http_accept_language_test.rb"
