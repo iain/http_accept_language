@@ -55,10 +55,10 @@ module HttpAcceptLanguage
   end
 
 end
-if defined?(ActionController::Request)
-  ActionController::Request.send :include, HttpAcceptLanguage
-elsif defined?(ActionController::AbstractRequest)
-  ActionController::AbstractRequest.send :include, HttpAcceptLanguage
-elsif defined?(ActionController::CgiRequest)
-  ActionController::CgiRequest.send :include, HttpAcceptLanguage
+if defined?(ActionDispatch::Request)
+  ActionDispatch::Request.send :include, HttpAcceptLanguage
+elsif defined?(ActionDispatch::AbstractRequest)
+  ActionDispatch::AbstractRequest.send :include, HttpAcceptLanguage
+elsif defined?(ActionDispatch::CgiRequest)
+  ActionDispatch::CgiRequest.send :include, HttpAcceptLanguage
 end
