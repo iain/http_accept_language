@@ -9,7 +9,7 @@ module HttpAcceptLanguage
   #   # => [ 'nl-NL', 'nl-BE', 'nl', 'en-US', 'en' ]
   #
   def user_preferred_languages
-    @user_preferred_languages ||= env['HTTP_ACCEPT_LANGUAGE'].split(',').collect do |l|
+    @user_preferred_languages ||= env['HTTP_ACCEPT_LANGUAGE'].split(/\s*,\s*/).collect do |l|
       l += ';q=1.0' unless l =~ /;q=\d+\.\d+$/
       l.split(';q=')
     end.sort do |x,y|
