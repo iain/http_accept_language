@@ -56,10 +56,13 @@ module HttpAcceptLanguage
   end
 
 end
-if defined?(ActionDispatch::Request)
-  ActionDispatch::Request.send :include, HttpAcceptLanguage
-elsif defined?(ActionDispatch::AbstractRequest)
-  ActionDispatch::AbstractRequest.send :include, HttpAcceptLanguage
-elsif defined?(ActionDispatch::CgiRequest)
-  ActionDispatch::CgiRequest.send :include, HttpAcceptLanguage
+
+action = defined?(ActionDispatch) ? 'ActionDispatch' : 'ActionController'
+
+if defined?(class_eval(action + '::Request'))
+  class_eval(action + '::Request.send :include, HttpAcceptLanguage')
+elsif defined?(class_eval(action + '::AbstractRequest'))
+  class_eval(action + '::AbstractRequest.send :include, HttpAcceptLanguage')
+elsif defined?(class_eval(action + '::CgiRequest'))
+  class_eval(action + '::CgiRequest.send :include, HttpAcceptLanguage')
 end
