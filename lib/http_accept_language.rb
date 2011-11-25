@@ -49,7 +49,7 @@ module HttpAcceptLanguage
   def compatible_language_from(available_languages)
     user_preferred_languages.map do |preferred|
       available_languages.find do |available|
-        available.to_s =~ /^#{Regexp.escape(preferred.to_s)}(-|$)/
+        available.to_s =~ /^(#{Regexp.escape(preferred.to_s)})(\-.+)?$/
       end
     end.compact.first
   end
