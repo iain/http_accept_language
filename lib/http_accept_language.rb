@@ -47,8 +47,8 @@ module HttpAcceptLanguage
   #   request.compatible_language_from I18n.available_locales
   #
   def compatible_language_from(available_languages)
-    user_preferred_languages.map do |preferred|
-      available_languages.find do |available|
+    user_preferred_languages.map do |x|
+      available_languages.find do |y|
         y = y.to_s
         x == y || x.split('-', 2).first == y.split('-', 2).first
       end
