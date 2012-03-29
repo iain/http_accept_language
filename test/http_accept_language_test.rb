@@ -5,7 +5,7 @@ require 'test/unit'
 class MockedCgiRequest
   include HttpAcceptLanguage
   def env
-    @env ||= {'HTTP_ACCEPT_LANGUAGE' => 'en-us,en-gb;q=0.8,en;q=0.6'}
+    @env ||= {'HTTP_ACCEPT_LANGUAGE' => 'en-us,en-gb;q=0.8,en;q=0.6,es-419'}
   end
 end
 
@@ -16,7 +16,7 @@ class HttpAcceptLanguageTest < Test::Unit::TestCase
   end
 
   def test_should_properly_split
-    assert_equal %w{en-US en-GB en}, request.user_preferred_languages
+    assert_equal %w{en-US es-419 en-GB en}, request.user_preferred_languages
   end
 
   def test_should_ignore_jambled_header
