@@ -47,8 +47,8 @@ module HttpAcceptLanguage
   #   request.compatible_language_from I18n.available_locales
   #
   def compatible_language_from(available_languages)
-    user_preferred_languages.map do |x| #en-US
-      available_languages.find do |y| # en
+    user_preferred_languages.map do |x|
+      available_languages.find do |y|
         y = y.to_s
         x == y || x.split('-', 2).first == y.split('-', 2).first
       end
@@ -56,10 +56,13 @@ module HttpAcceptLanguage
   end
 
 end
-if defined?(ActionDispatch::Request)
-  ActionDispatch::Request.send :include, HttpAcceptLanguage
-elsif defined?(ActionDispatch::AbstractRequest)
-  ActionDispatch::AbstractRequest.send :include, HttpAcceptLanguage
-elsif defined?(ActionDispatch::CgiRequest)
-  ActionDispatch::CgiRequest.send :include, HttpAcceptLanguage
+
+action = defined?(ActionDispatch) ? 'ActionDispatch' : 'ActionController'
+
+if defined?(class_eval(action + '::Request'))
+  class_eval(action + '::Request.send :include, HttpAcceptLanguage')
+elsif defined?(class_eval(action + '::AbstractRequest'))
+  class_eval(action + '::AbstractRequest.send :include, HttpAcceptLanguage')
+elsif defined?(class_eval(action + '::CgiRequest'))
+  class_eval(action + '::CgiRequest.send :include, HttpAcceptLanguage')
 end
