@@ -55,6 +55,22 @@ module HttpAcceptLanguage
     end.compact.first
   end
 
+  # Returns a supplied list of available locals without any extra application info
+  # that may be attached to the locale for storage in the application.
+  #
+  # Example:
+  # [ja_JP-x1, en-US-x4, en_UK-x5, fr-FR-x3] => [ja-JP, en-US, en-UK, fr-FR]
+  #
+  def sanitize_available_locales(available_languages)
+    available_languages.map do |avail|
+      split_locale = avail.split(/[_-]/)
+
+      split_locale.map do |e|
+        e unless e.match(/x|[0-9*]/)
+      end.compact.join("-")
+    end
+  end
+
 end
 if defined?(ActionDispatch::Request)
   ActionDispatch::Request.send :include, HttpAcceptLanguage
