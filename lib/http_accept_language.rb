@@ -55,6 +55,25 @@ module HttpAcceptLanguage
     end.compact.first
   end
 
+  # Returns the first of the user preferred languages that is
+  # also found in available languages.  Finds best fit by matching on
+  # primary language first and secondarily on region.  If no matching region is
+  # found, return the first language in the group matching that primary language.
+  #
+  # Example:
+  #
+  #   request.language_region_compatible(available_languages)
+  #
+  def language_region_compatible_from(available_languages)
+    available_languages = sanitize_available_locales(available_languages)
+    user_preferred_languages.map do |x| #en-US
+      lang_group = available_languages.select do |y| # en
+        y = y.to_s
+        x.split('-', 2).first == y.split('-', 2).first
+      end
+      lang_group.find{|l| l == x} || lang_group.first #en-US, en-UK
+    end.compact.first
+  end
 end
 if defined?(ActionDispatch::Request)
   ActionDispatch::Request.send :include, HttpAcceptLanguage
