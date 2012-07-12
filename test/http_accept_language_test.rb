@@ -47,6 +47,11 @@ class HttpAcceptLanguageTest < Test::Unit::TestCase
     assert_equal ["en-UK", "en-US", "ja-JP", "pt-BR"], request.sanitize_available_locales(%w{en_UK-x3 en-US-x1 ja_JP-x2 pt-BR-x5})
   end
 
+  def test_should_find_most_compatible_language_from_user_preferred
+    request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja,en-gb,en-us,fr-fr'
+    assert_equal "ja-JP", request.language_region_compatible_from(%w{en-UK en-US ja-JP})
+  end
+
   private
   def request
     @request ||= MockedCgiRequest.new
