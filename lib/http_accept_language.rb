@@ -91,10 +91,12 @@ module HttpAcceptLanguage
     end.compact.first
   end
 end
-if defined?(ActionDispatch::Request)
-  ActionDispatch::Request.send :include, HttpAcceptLanguage
-elsif defined?(ActionDispatch::AbstractRequest)
-  ActionDispatch::AbstractRequest.send :include, HttpAcceptLanguage
-elsif defined?(ActionDispatch::CgiRequest)
-  ActionDispatch::CgiRequest.send :include, HttpAcceptLanguage
+
+if defined?(ActionPack)
+  classes = if ActionPack::VERSION::MAJOR == 2
+    [ActionController::Request, ActionController::CgiRequest]
+  else
+    [ActionDispatch::Request]
+  end
+  classes.each{|c| c.send :include, HttpAcceptLanguage }
 end
