@@ -55,11 +55,48 @@ module HttpAcceptLanguage
     end.compact.first
   end
 
+  # Returns a supplied list of available locals without any extra application info
+  # that may be attached to the locale for storage in the application.
+  #
+  # Example:
+  # [ja_JP-x1, en-US-x4, en_UK-x5, fr-FR-x3] => [ja-JP, en-US, en-UK, fr-FR]
+  #
+  def sanitize_available_locales(available_languages)
+    available_languages.map do |avail|
+      split_locale = avail.split(/[_-]/)
+
+      split_locale.map do |e|
+        e unless e.match(/x|[0-9*]/)
+      end.compact.join("-")
+    end
+  end
+
+  # Returns the first of the user preferred languages that is
+  # also found in available languages.  Finds best fit by matching on
+  # primary language first and secondarily on region.  If no matching region is
+  # found, return the first language in the group matching that primary language.
+  #
+  # Example:
+  #
+  #   request.language_region_compatible(available_languages)
+  #
+  def language_region_compatible_from(available_languages)
+    available_languages = sanitize_available_locales(available_languages)
+    user_preferred_languages.map do |x| #en-US
+      lang_group = available_languages.select do |y| # en
+        y = y.to_s
+        x.split('-', 2).first == y.split('-', 2).first
+      end
+      lang_group.find{|l| l == x} || lang_group.first #en-US, en-UK
+    end.compact.first
+  end
 end
-if defined?(ActionDispatch::Request)
-  ActionDispatch::Request.send :include, HttpAcceptLanguage
-elsif defined?(ActionDispatch::AbstractRequest)
-  ActionDispatch::AbstractRequest.send :include, HttpAcceptLanguage
-elsif defined?(ActionDispatch::CgiRequest)
-  ActionDispatch::CgiRequest.send :include, HttpAcceptLanguage
+
+if defined?(ActionPack)
+  classes = if ActionPack::VERSION::MAJOR == 2
+    [ActionController::Request, ActionController::CgiRequest]
+  else
+    [ActionDispatch::Request]
+  end
+  classes.each{|c| c.send :include, HttpAcceptLanguage }
 end
