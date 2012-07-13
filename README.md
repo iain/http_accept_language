@@ -61,6 +61,24 @@ class YourAwesomeApp
 end
 ```
 
+## Available methods
+
+* **user_preferred_languages**:
+  Returns a sorted array based on user preference in HTTP_ACCEPT_LANGUAGE, sanitized and all.
+* **preferred_language_from**:
+  Finds the locale specifically requested by the browser
+* **compatible_language_from**:
+  Returns the first of the user_preferred_languages that is compatible with the available locales.
+  Ignores region.
+* **sanitize_available_locales**:
+  Returns a supplied list of available locals without any extra application info
+  that may be attached to the locale for storage in the application.
+* **language_region_compatible_from**:
+  Returns the first of the user preferred languages that is
+  also found in available languages.  Finds best fit by matching on
+  primary language first and secondarily on region.  If no matching region is
+  found, return the first language in the group matching that primary language.
+
 ## Installation
 
 
