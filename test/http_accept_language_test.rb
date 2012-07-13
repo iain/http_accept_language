@@ -1,6 +1,6 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 require 'http_accept_language'
-require 'test/unit'
+require 'minitest/autorun'
 
 module ActionPack
   module VERSION
@@ -27,7 +27,7 @@ class MockedCgiRequest
   end
 end
 
-class HttpAcceptLanguageTest < Test::Unit::TestCase
+class HttpAcceptLanguageTest < MiniTest::Unit::TestCase
   def test_should_return_empty_array
     request.env['HTTP_ACCEPT_LANGUAGE'] = nil
     assert_equal [], request.user_preferred_languages
@@ -76,8 +76,8 @@ class HttpAcceptLanguageTest < Test::Unit::TestCase
     end
     load "http_accept_language.rb"
 
-    assert_include ActionController::Request.ancestors, HttpAcceptLanguage
-    assert_include ActionController::CgiRequest.ancestors, HttpAcceptLanguage
+    assert_includes ActionController::Request.ancestors, HttpAcceptLanguage
+    assert_includes ActionController::CgiRequest.ancestors, HttpAcceptLanguage
   end
 
   def test_should_be_included_into_actionpack_v3
@@ -85,7 +85,7 @@ class HttpAcceptLanguageTest < Test::Unit::TestCase
       ActionPack::VERSION.const_set(:MAJOR, 3)
     end
     load "http_accept_language.rb"
-    assert_include ActionDispatch::Request.ancestors, HttpAcceptLanguage
+    assert_includes ActionDispatch::Request.ancestors, HttpAcceptLanguage
   end
 
   private
