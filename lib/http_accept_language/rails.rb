@@ -5,8 +5,8 @@ module HttpAcceptLanguage
 
     extend Forwardable
 
-    def http_accept_language_parser
-      @http_accept_language_parser ||= Parser.new(env)
+    def http_accept_language
+      @http_accept_language_parser ||= Parser.new(env['HTTP_ACCEPT_LANGUAGE'])
     end
 
     def_delegators :http_accept_language_parser,

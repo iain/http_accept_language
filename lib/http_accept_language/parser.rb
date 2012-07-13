@@ -2,10 +2,10 @@ module HttpAcceptLanguage
 
   class Parser
 
-    attr_reader :env
+    attr_accessor :header
 
-    def initialize(env)
-      @env = env
+    def initialize(header)
+      @header = header
     end
 
     # Returns a sorted array based on user preference in HTTP_ACCEPT_LANGUAGE.
@@ -17,7 +17,7 @@ module HttpAcceptLanguage
     #   # => [ 'nl-NL', 'nl-BE', 'nl', 'en-US', 'en' ]
     #
     def user_preferred_languages
-      @user_preferred_languages ||= env['HTTP_ACCEPT_LANGUAGE'].split(/\s*,\s*/).collect do |l|
+      @user_preferred_languages ||= header.split(/\s*,\s*/).collect do |l|
         l += ';q=1.0' unless l =~ /;q=\d+\.\d+$/
           l.split(';q=')
       end.sort do |x,y|
