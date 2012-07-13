@@ -21,4 +21,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rack-test'
   s.add_development_dependency 'guard-rspec'
+  s.add_development_dependency 'rails', '>= 3.2.6'
+  s.add_development_dependency 'cucumber'
+  s.add_development_dependency 'aruba'
 end

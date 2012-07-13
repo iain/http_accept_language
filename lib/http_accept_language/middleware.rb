@@ -1,5 +1,5 @@
 module HttpAcceptLanguage
-  class Rack
+  class Middleware
 
     def initialize(app)
       @app = app

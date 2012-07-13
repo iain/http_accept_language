@@ -23,7 +23,7 @@ describe "Rack integration" do
 
   def app
     Rack::Builder.new do
-      use HttpAcceptLanguage::Rack
+      use HttpAcceptLanguage::Middleware
       run TestRackApp.new
     end.to_app
   end
