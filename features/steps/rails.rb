@@ -1,13 +1,37 @@
+Before "@rails" do
+  @rails = RailsDriver.new
+end
+
 When /^I generate a new Rails app$/ do
-  @aruba_io_wait_seconds = 10
-  app_name = "foobar"
-  # install rails with as few things as possible, for speed!
-  run_simple "bundle exec rails new #{app_name} --skip-git --skip-active-record --skip-sprockets --skip-javascript --skip-test-unit --old-style-hash"
-  cd app_name
+  @rails.generate_rails
 end
 
 When /^I add http_accept_language to my Gemfile$/ do
-  # Specifiy a path so cucumber will use the unreleased version of the gem
-  path = File.expand_path('../../../', __FILE__)
-  append_to_file "Gemfile", "gem 'http_accept_language', :path => '#{path}'"
+  @rails.append_gemfile
+end
+
+Given /^I have installed http_accept_language$/ do
+  @rails.install_gem
+end
+
+When /^I generate the following controller:$/ do |string|
+  @rails.generate_controller "languages", string
+end
+
+When /^I access that action with the HTTP_ACCEPT_LANGUAGE header "(.*?)"$/ do |header|
+  @rails.with_rails_running do
+    @rails.request_with_http_accept_language_header(header, "/languages")
+  end
+end
+
+Then /^the response should contain "(.*?)"$/ do |output|
+  @rails.output_should_contain(output)
+end
+
+When /^I run `rake middleware`$/ do
+  @rails.bundle_exec("rake middleware")
+end
+
+Then /^the output should contain "(.*?)"$/ do |expected|
+  @rails.assert_partial_output(expected, @rails.all_output)
 end
