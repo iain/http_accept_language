@@ -90,13 +90,7 @@ module HttpAcceptLanguage
       lang_group.find{|l| l == x} || lang_group.first #en-US, en-UK
     end.compact.first
   end
+
 end
 
-if defined?(ActionPack)
-  classes = if ActionPack::VERSION::MAJOR == 2
-    [ActionController::Request, ActionController::CgiRequest]
-  else
-    [ActionDispatch::Request]
-  end
-  classes.each{|c| c.send :include, HttpAcceptLanguage }
-end
+require 'http_accept_language/rails' if defined?(ActionPack)

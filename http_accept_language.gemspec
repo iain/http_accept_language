@@ -1,7 +1,9 @@
 # -*- encoding: utf-8 -*-
+require File.expand_path('../lib/http_accept_language/version', __FILE__)
+
 Gem::Specification.new do |s|
   s.name        = "http_accept_language"
-  s.version     = '1.0.2'
+  s.version     = HttpAcceptLanguage::VERSION
   s.authors     = ["iain"]
   s.email       = ["iain@iain.nl"]
   s.homepage    = "https://github.com/iain/http_accept_language"
@@ -16,5 +18,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'rack-test'
+  s.add_development_dependency 'guard-rspec'
 end
