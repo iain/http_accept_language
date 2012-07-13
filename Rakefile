@@ -1,10 +1,6 @@
 require "bundler/gem_tasks"
 
-require 'rake/testtask'
-desc 'Test the http_accept_language plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.pattern = 'test/**/*_test.rb'
-end
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec)
 
-desc 'Default: run unit tests.'
-task :default => :test
+task :default => :spec

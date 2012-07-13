@@ -21,28 +21,17 @@ end
 describe "Rails integration" do
 
   it "should be included into actionpack v2" do
-    silence_warnings do
-      ActionPack::VERSION.const_set(:MAJOR, 2)
-    end
+    stub_const("ActionPack::VERSION::MAJOR", 2)
     load "http_accept_language/rails.rb"
 
-    ActionController::Request.ancestors.should include HttpAcceptLanguage
-    ActionController::CgiRequest.ancestors.should include HttpAcceptLanguage
+    ActionController::Request.ancestors.should include HttpAcceptLanguage::Rails
+    ActionController::CgiRequest.ancestors.should include HttpAcceptLanguage::Rails
   end
 
   it "should be included into actionpack v3" do
-    silence_warnings do
-      ActionPack::VERSION.const_set(:MAJOR, 3)
-    end
+    stub_const("ActionPack::VERSION::MAJOR", 3)
     load "http_accept_language/rails.rb"
-    ActionDispatch::Request.ancestors.should include HttpAcceptLanguage
-  end
-
-  def silence_warnings
-    old_verbose, $VERBOSE = $VERBOSE, nil
-    yield
-  ensure
-    $VERBOSE = old_verbose
+    ActionDispatch::Request.ancestors.should include HttpAcceptLanguage::Rails
   end
 
 end

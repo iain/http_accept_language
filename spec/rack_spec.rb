@@ -1,4 +1,4 @@
-require 'http_accept_language/rack'
+require 'http_accept_language'
 require 'rack/test'
 require 'json'
 
