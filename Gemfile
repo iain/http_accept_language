@@ -1,4 +1,5 @@
-source "http://rubygems.org"
+source :rubygems
 
-# Specify your gem's dependencies in http_accept_language.gemspec
 gemspec
+gem "test-unit", ">=2.5.1"
+gem "rake"
