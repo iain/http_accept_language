@@ -19,7 +19,7 @@ module HttpAcceptLanguage
     def user_preferred_languages
       @user_preferred_languages ||= header.gsub(/\s+/, '').split(/,/).collect do |l|
         l += ';q=1.0' unless l =~ /;q=\d+\.\d+$/
-          l.split(/;q=/)
+          l.split(';q=')
       end.sort do |x,y|
         raise "Not correctly formatted" unless x.first =~ /^[a-z\-0-9]+$/i
         y.last.to_f <=> x.last.to_f
