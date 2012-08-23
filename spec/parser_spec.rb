@@ -20,6 +20,11 @@ describe HttpAcceptLanguage::Parser do
     parser.user_preferred_languages.should eq []
   end
 
+  it "should properly respect whitespace" do
+    parser.header = 'en-us, en-gb; q=0.8,en;q = 0.6,es-419'
+    parser.user_preferred_languages.should eq %w{en-US es-419 en-GB en}
+  end
+
   it "should find first available language" do
     parser.preferred_language_from(%w{en en-GB}).should eq "en-GB"
   end
