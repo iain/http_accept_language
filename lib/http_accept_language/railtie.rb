@@ -12,9 +12,11 @@ module HttpAcceptLanguage
   end
 
   module EasyAccess
+
     def http_accept_language
-      env.http_accept_language
+      @http_accept_language ||= env.respond_to?(:http_accept_language) ? env.http_accept_language : Parser.new("")
     end
+
   end
 
 end
