@@ -6,8 +6,9 @@ module HttpAcceptLanguage
     end
 
     def call(env)
+      env["http_accept_language"] = Parser.new(env['HTTP_ACCEPT_LANGUAGE'])
       def env.http_accept_language
-        @http_accept_language ||= Parser.new(self['HTTP_ACCEPT_LANGUAGE'])
+        self["http_accept_language"]
       end
       @app.call(env)
     end
