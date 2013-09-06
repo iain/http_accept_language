@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/iain/http_accept_language"
   s.summary     = %q{Find out which locale the user preferes by reading the languages they specified in their browser}
   s.description = %q{Find out which locale the user preferes by reading the languages they specified in their browser}
+  s.license     = "MIT"
 
   s.rubyforge_project = "http_accept_language"
 
