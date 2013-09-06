@@ -1,6 +1,6 @@
 # HttpAcceptLanguage
 
-A small effort in making a plugin which helps you detect the users preferred language, as sent by the HTTP header.
+A small effort in making a gem which helps you detect the users preferred language, as sent by the HTTP header.
 
 Since version 2.0, this gem is Rack middleware.
 
@@ -24,13 +24,13 @@ class SomeController < ApplicationController
 
   def some_action
 
-    http_accept_language.user_preferred_languages # => [ 'nl-NL', 'nl-BE', 'nl', 'en-US', 'en' ]
+    request.user_preferred_languages # => [ 'nl-NL', 'nl-BE', 'nl', 'en-US', 'en' ]
     available = %w{en en-US nl-BE}
-    http_accept_language.preferred_language_from(available) # => 'nl-BE'
+    request.preferred_language_from(available) # => 'nl-BE'
 
-    http_accept_language.user_preferred_languages # => [ 'en-GB']
+    request.user_preferred_languages # => [ 'en-GB']
     available = %w{en-US}
-    http_accept_language.compatible_language_from(available) # => 'en-US'
+    request.compatible_language_from(available) # => 'en-US'
 
   end
 
