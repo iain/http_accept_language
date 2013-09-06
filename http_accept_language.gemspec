@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/http_accept_language/version', __FILE__)
+$:.push File.expand_path("../lib", __FILE__)
+require "http_accept_language/version"
 
 Gem::Specification.new do |s|
   s.name        = "http_accept_language"
