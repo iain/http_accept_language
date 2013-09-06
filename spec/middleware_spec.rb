@@ -18,6 +18,11 @@ class TestRackApp
 
 end
 
+class NoOpApp
+    def call(env)
+    end
+end 
+
 describe "Rack integration" do
   include Rack::Test::Methods
 
@@ -26,6 +31,17 @@ describe "Rack integration" do
       use HttpAcceptLanguage::Middleware
       run TestRackApp.new
     end.to_app
+  end
+
+  it "handles reuse of the env instance" do
+    env = { "HTTP_ACCEPT_LANGUAGE" => "en" }
+    app = NoOpApp.new
+    middleware = HttpAcceptLanguage::Middleware.new(app)
+    middleware.call(env)
+    env.http_accept_language.user_preferred_languages.should eq %w{en}
+    env["HTTP_ACCEPT_LANGUAGE"] = "de"
+    middleware.call(env)
+    env.http_accept_language.user_preferred_languages.should eq %w{de}
   end
 
   it "decodes the HTTP_ACCEPT_LANGUAGE header" do
