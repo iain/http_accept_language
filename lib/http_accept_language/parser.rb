@@ -55,12 +55,10 @@ module HttpAcceptLanguage
     #   request.compatible_language_from I18n.available_locales
     #
     def compatible_language_from(available_languages)
-      user_preferred_languages.map do |x| #en-US
-        available_languages.find do |y| # en
-          y = y.to_s
-          x == y || x.split('-', 2).first == y.split('-', 2).first
-        end
-      end.compact.first
+      user_preferred_languages.find do |preferred|
+        available_languages.find { |available| available.to_s == preferred.to_s } ||
+        available_languages.find { |available| available.to_s =~ /^#{Regexp.escape(preferred.to_s)}-/ } 
+      end
     end
 
     # Returns a supplied list of available locals without any extra application info

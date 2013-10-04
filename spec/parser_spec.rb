@@ -35,12 +35,12 @@ describe HttpAcceptLanguage::Parser do
   end
 
   it "should find first compatible from user preferred" do
-    parser.header = 'en-us,de-de'
-    parser.compatible_language_from(%w{de en}).should eq 'en'
+    parser.header = 'en-US,en,de'
+    parser.compatible_language_from(%w{de-DE en-GB}).should eq 'en-GB'
   end
 
   it "should accept symbols as available languages" do
-    parser.header = 'en-us'
+    parser.header = 'en'
     parser.compatible_language_from([:"en-HK"]).should eq :"en-HK"
   end
 
