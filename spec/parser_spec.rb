@@ -45,7 +45,7 @@ describe HttpAcceptLanguage::Parser do
   end
 
   it "should sanitize available language names" do
-    parser.sanitize_available_locales(%w{en_UK-x3 en-US-x1 ja_JP-x2 pt-BR-x5}).should eq ["en-UK", "en-US", "ja-JP", "pt-BR"]
+    parser.sanitize_available_locales(%w{en_UK-x3 en-US-x1 ja_JP-x2 pt-BR-x5 es-419-x4}).should eq ["en-UK", "en-US", "ja-JP", "pt-BR", "es-419"]
   end
 
   it "should find most compatible language from user preferred" do
