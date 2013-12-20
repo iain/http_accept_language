@@ -74,7 +74,7 @@ module HttpAcceptLanguage
         split_locale = avail.split(/[_-]/)
 
         split_locale.map do |e|
-          e unless e.match(/x|[0-9*]/)
+          e unless e.start_with?("x")
         end.compact.join("-")
       end
     end
