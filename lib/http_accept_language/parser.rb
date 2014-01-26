@@ -17,17 +17,21 @@ module HttpAcceptLanguage
     #   # => [ 'nl-NL', 'nl-BE', 'nl', 'en-US', 'en' ]
     #
     def user_preferred_languages
-      @user_preferred_languages ||= header.gsub(/\s+/, '').split(/,/).collect do |l|
-        l += ';q=1.0' unless l =~ /;q=\d+\.\d+$/
-          l.split(';q=')
-      end.sort do |x,y|
-        raise "Not correctly formatted" unless x.first =~ /^[a-z\-0-9]+$/i
-        y.last.to_f <=> x.last.to_f
-      end.collect do |l|
-        l.first.downcase.gsub(/-[a-z0-9]+$/i) { |x| x.upcase }
+      @user_preferred_languages ||= begin
+        header.to_s.gsub(/\s+/, '').split(',').map do |language|
+          locale, quality = language.split(';q=')
+          raise ArgumentError, 'Not correctly formatted' unless locale =~ /^[a-z\-0-9]+$/i
+
+          locale  = locale.downcase.gsub(/-[a-z0-9]+$/i) { |territory| territory.upcase }
+          quality = quality ? quality.to_f : 1.0
+
+          [locale, quality]
+        end.sort do |(_, left), (_, right)|
+          right <=> left
+        end.map(&:first)
+      rescue ArgumentError # Just rescue anything if the browser messed up badly.
+        []
       end
-    rescue # Just rescue anything if the browser messed up badly.
-      []
     end
 
     # Sets the user languages preference, overiding the browser
