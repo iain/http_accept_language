@@ -1,7 +1,5 @@
 module HttpAcceptLanguage
-
   class Parser
-
     attr_accessor :header
 
     def initialize(header)
@@ -22,7 +20,7 @@ module HttpAcceptLanguage
           locale, quality = language.split(';q=')
           raise ArgumentError, 'Not correctly formatted' unless locale =~ /^[a-z\-0-9]+$/i
 
-          locale  = locale.downcase.gsub(/-[a-z0-9]+$/i) { |territory| territory.upcase }
+          locale  = locale.downcase.gsub(/-[a-z0-9]+$/i, &:upcase) # Uppercase territory
           quality = quality ? quality.to_f : 1.0
 
           [locale, quality]
@@ -34,7 +32,7 @@ module HttpAcceptLanguage
       end
     end
 
-    # Sets the user languages preference, overiding the browser
+    # Sets the user languages preference, overriding the browser
     #
     def user_preferred_languages=(languages)
       @user_preferred_languages = languages
@@ -48,7 +46,7 @@ module HttpAcceptLanguage
     #   # => 'nl'
     #
     def preferred_language_from(array)
-      (user_preferred_languages & array.collect { |i| i.to_s }).first
+      (user_preferred_languages & array.map(&:to_s)).first
     end
 
     # Returns the first of the user_preferred_languages that is compatible
@@ -59,10 +57,10 @@ module HttpAcceptLanguage
     #   request.compatible_language_from I18n.available_locales
     #
     def compatible_language_from(available_languages)
-      user_preferred_languages.map do |x| #en-US
-        available_languages.find do |y| # en
-          y = y.to_s
-          x == y || x.split('-', 2).first == y.split('-', 2).first
+      user_preferred_languages.map do |preferred| #en-US
+        available_languages.find do |available| # en
+          available = available.to_s
+          preferred == available || preferred.split('-', 2).first == available.split('-', 2).first
         end
       end.compact.first
     end
@@ -74,12 +72,8 @@ module HttpAcceptLanguage
     # [ja_JP-x1, en-US-x4, en_UK-x5, fr-FR-x3] => [ja-JP, en-US, en-UK, fr-FR]
     #
     def sanitize_available_locales(available_languages)
-      available_languages.map do |avail|
-        split_locale = avail.split(/[_-]/)
-
-        split_locale.map do |e|
-          e unless e.start_with?("x")
-        end.compact.join("-")
+      available_languages.map do |available|
+        available.split(/[_-]/).reject { |part| part.start_with?("x") }.join("-")
       end
     end
 
@@ -94,15 +88,13 @@ module HttpAcceptLanguage
     #
     def language_region_compatible_from(available_languages)
       available_languages = sanitize_available_locales(available_languages)
-      user_preferred_languages.map do |x| #en-US
-        lang_group = available_languages.select do |y| # en
-          y = y.to_s
-          x.split('-', 2).first == y.split('-', 2).first
+      user_preferred_languages.map do |preferred| #en-US
+        lang_group = available_languages.select do |available| # en
+          available = available.to_s
+          preferred.split('-', 2).first == available.split('-', 2).first
         end
-        lang_group.find{|l| l == x} || lang_group.first #en-US, en-UK
+        lang_group.find { |lang| lang == preferred } || lang_group.first #en-US, en-UK
       end.compact.first
     end
-
   end
-
 end
