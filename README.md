@@ -2,8 +2,8 @@
 
 A gem which helps you detect the users preferred language, as sent by the "Accept-Language" HTTP header.
 
-The algorithm is based on [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html), with one exception: 
-when a user requests "en-US" and "en" is an available language, "en" is deemed compatible with "en-US". 
+The algorithm is based on [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html), with one exception:
+when a user requests "en-US" and "en" is an available language, "en" is deemed compatible with "en-US".
 The RFC specifies that the requested language must either exactly match the available language or must exactly match a prefix of the available language. This means that when the user requests "en" and "en-US" is available, "en-US" would be compatible, but not the other way around. This is usually not what you're looking for.
 
 Since version 2.0, this gem is Rack middleware.
@@ -41,6 +41,12 @@ class SomeController < ApplicationController
       I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
     end
 end
+```
+
+You can automate it by setting in `config/application.rb`
+
+```ruby
+  config.i18n.automatically_set_locale = true
 ```
 
 To use the middleware in any Rack application, simply add the middleware:
