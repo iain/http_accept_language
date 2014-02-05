@@ -48,6 +48,10 @@ describe HttpAcceptLanguage::Parser do
     parser.sanitize_available_locales(%w{en_UK-x3 en-US-x1 ja_JP-x2 pt-BR-x5 es-419-x4}).should eq ["en-UK", "en-US", "ja-JP", "pt-BR", "es-419"]
   end
 
+  it "should accept available language names as symbols and return them as strings" do
+    parser.sanitize_available_locales([:en, :"en-US", :ca, :"ca-ES"]).should eq ["en", "en-US", "ca", "ca-ES"]
+  end
+
   it "should find most compatible language from user preferred" do
     parser.header = 'ja,en-gb,en-us,fr-fr'
     parser.language_region_compatible_from(%w{en-UK en-US ja-JP}).should eq "ja-JP"
