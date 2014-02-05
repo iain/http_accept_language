@@ -73,7 +73,7 @@ module HttpAcceptLanguage
     #
     def sanitize_available_locales(available_languages)
       available_languages.map do |available|
-        available.split(/[_-]/).reject { |part| part.start_with?("x") }.join("-")
+        available.to_s.split(/[_-]/).reject { |part| part.start_with?("x") }.join("-")
       end
     end
 
@@ -90,7 +90,6 @@ module HttpAcceptLanguage
       available_languages = sanitize_available_locales(available_languages)
       user_preferred_languages.map do |preferred| #en-US
         lang_group = available_languages.select do |available| # en
-          available = available.to_s
           preferred.split('-', 2).first == available.split('-', 2).first
         end
         lang_group.find { |lang| lang == preferred } || lang_group.first #en-US, en-UK
