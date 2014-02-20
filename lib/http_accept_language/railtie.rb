@@ -11,7 +11,7 @@ module HttpAcceptLanguage
 
   module EasyAccess
     def http_accept_language
-      @http_accept_language ||= request.env["http_accept_language.parser"] || Parser.new("")
+      @http_accept_language ||= request.env["http_accept_language.parser"] || Parser.new(request.env["HTTP_ACCEPT_LANGUAGE"])
     end
   end
 end
