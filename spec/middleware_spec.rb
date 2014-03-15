@@ -40,8 +40,8 @@ describe "Rack integration" do
   end
 
   it "decodes the HTTP_ACCEPT_LANGUAGE header" do
-    request_with_header 'en-us,en-gb;q=0.8,en;q=0.6,es-419'
-    r['user_preferred_languages'].should eq %w{en-US es-419 en-GB en}
+    request_with_header 'en-us,en-gb;q=0.8,en;q=0.6,es-ES'
+    r['user_preferred_languages'].should eq %w{en-US es-ES en-GB en}
   end
 
   it "finds the first available language" do

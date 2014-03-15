@@ -25,5 +25,5 @@ Feature: Rails Integration
 
     end
     """
-    When I access that action with the HTTP_ACCEPT_LANGUAGE header "en-us,en-gb;q=0.8,en;q=0.6,es-419"
-    Then the response should contain "Languages: en-US : es-419 : en-GB : en"
+    When I access that action with the HTTP_ACCEPT_LANGUAGE header "en-us,en-gb;q=0.8,en;q=0.6,es-ES"
+    Then the response should contain "Languages: en-US : es-ES : en-GB : en"

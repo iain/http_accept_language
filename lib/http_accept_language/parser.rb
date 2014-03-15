@@ -18,17 +18,15 @@ module HttpAcceptLanguage
       @user_preferred_languages ||= begin
         header.to_s.gsub(/\s+/, '').split(',').map do |language|
           locale, quality = language.split(';q=')
-          raise ArgumentError, 'Not correctly formatted' unless locale =~ /^[a-z\-0-9]+$/i
+          next nil unless locale =~ /^[[:alpha:]]{1,8}(-[[:alpha:]]{1,8})?$/
 
-          locale  = locale.downcase.gsub(/-[a-z0-9]+$/i, &:upcase) # Uppercase territory
+          locale  = locale.downcase.gsub(/-.+$/i, &:upcase) # Uppercase territory
           quality = quality ? quality.to_f : 1.0
 
           [locale, quality]
-        end.sort do |(_, left), (_, right)|
+        end.compact.sort do |(_, left), (_, right)|
           right <=> left
         end.map(&:first)
-      rescue ArgumentError # Just rescue anything if the browser messed up badly.
-        []
       end
     end
 
