@@ -59,7 +59,8 @@ module HttpAcceptLanguage
     def compatible_language_from(available_languages)
       user_preferred_languages.map do |preferred| #en-US
         available_languages.find do |available| # en
-          available = available.to_s
+          preferred = preferred.downcase
+          available = available.to_s.downcase
           preferred == available || preferred.split('-', 2).first == available.split('-', 2).first
         end
       end.compact.first
@@ -90,9 +91,9 @@ module HttpAcceptLanguage
       available_languages = sanitize_available_locales(available_languages)
       user_preferred_languages.map do |preferred| #en-US
         lang_group = available_languages.select do |available| # en
-          preferred.split('-', 2).first == available.split('-', 2).first
+          preferred.downcase.split('-', 2).first == available.downcase.split('-', 2).first
         end
-        lang_group.find { |lang| lang == preferred } || lang_group.first #en-US, en-UK
+        lang_group.find { |lang| lang.downcase == preferred.downcase } || lang_group.first #en-US, en-UK
       end.compact.first
     end
   end
