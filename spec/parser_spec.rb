@@ -44,6 +44,11 @@ describe HttpAcceptLanguage::Parser do
     parser.compatible_language_from([:"en-HK"]).should eq :"en-HK"
   end
 
+  it "should accept and ignore wildcards" do
+    parser.header = 'en-US,en,*'
+    parser.compatible_language_from([:"en-US"]).should eq :"en-US"
+  end
+
   it "should sanitize available language names" do
     parser.sanitize_available_locales(%w{en_UK-x3 en-US-x1 ja_JP-x2 pt-BR-x5 es-419-x4}).should eq ["en-UK", "en-US", "ja-JP", "pt-BR", "es-419"]
   end
