@@ -43,10 +43,14 @@ class SomeController < ApplicationController
 end
 ```
 
-If you want to enable this behavior by default in all of your controllers, add the following in an initializer (`config/initializers/http_accept_language.rb`, for example):
+If you want to enable this behavior by default in your controllers, you can just include the provided concern:
 
 ```ruby
-HttpAcceptLanguage.automatically_set_locale = true
+class ApplicationController < ActionController::Base
+  include HttpAcceptLanguage::AutoLocale
+
+#...
+end
 ```
 
 To use the middleware in any Rack application, simply add the middleware:

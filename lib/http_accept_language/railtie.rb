@@ -1,15 +1,10 @@
 module HttpAcceptLanguage
   class Railtie < ::Rails::Railtie
-    initializer "http_accept_language.setup" do |app|
+    initializer "http_accept_language.add_middleware" do |app|
       app.middleware.use Middleware
 
       ActiveSupport.on_load :action_controller do
         include EasyAccess
-
-        if HttpAcceptLanguage.automatically_set_locale?
-          require "http_accept_language/auto_locale"
-          include AutoLocale
-        end
       end
     end
   end
