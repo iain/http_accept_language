@@ -33,20 +33,20 @@ describe "Rack integration" do
     app = lambda { |env| env }
     middleware = HttpAcceptLanguage::Middleware.new(app)
     middleware.call(env)
-    env.http_accept_language.user_preferred_languages.should eq %w{en}
+    expect(env.http_accept_language.user_preferred_languages).to eq %w{en}
     env["HTTP_ACCEPT_LANGUAGE"] = "de"
     middleware.call(env)
-    env.http_accept_language.user_preferred_languages.should eq %w{de}
+    expect(env.http_accept_language.user_preferred_languages).to eq %w{de}
   end
 
   it "decodes the HTTP_ACCEPT_LANGUAGE header" do
     request_with_header 'en-us,en-gb;q=0.8,en;q=0.6,es-419'
-    r['user_preferred_languages'].should eq %w{en-US es-419 en-GB en}
+    expect(r['user_preferred_languages']).to eq %w{en-US es-419 en-GB en}
   end
 
   it "finds the first available language" do
     request_with_header 'en-us,en-gb;q=0.8,en;q=0.6,es-419', :preferred => %w(en en-GB)
-    r['preferred_language_from'].should eq 'en-GB'
+    expect(r['preferred_language_from']).to eq 'en-GB'
   end
 
   def request_with_header(header, params = {})
