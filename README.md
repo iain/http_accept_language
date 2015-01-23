@@ -43,10 +43,10 @@ class SomeController < ApplicationController
 end
 ```
 
-If you want to enable this behavior by default in any of your controllers, add the following to your `config/application.rb`:
+If you want to enable this behavior by default in all of your controllers, add the following in an initializer (`config/initializers/http_accept_language.rb`, for example):
 
 ```ruby
-  config.i18n.automatically_set_locale = true
+HttpAcceptLanguage.automatically_set_locale = true
 ```
 
 To use the middleware in any Rack application, simply add the middleware:
