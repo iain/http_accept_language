@@ -43,7 +43,7 @@ class SomeController < ApplicationController
 end
 ```
 
-You can automate it by setting in `config/application.rb`
+If you want to enable this behavior by default in any of your controllers, add the following to your `config/application.rb`:
 
 ```ruby
   config.i18n.automatically_set_locale = true
