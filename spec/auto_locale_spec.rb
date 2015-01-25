@@ -1,10 +1,13 @@
+require 'i18n'
 require 'http_accept_language/auto_locale'
+require 'http_accept_language/parser'
+require 'http_accept_language/middleware'
 
 describe HttpAcceptLanguage::AutoLocale do
   let(:controller_class) do
     Class.new do
-      def self.before_filter(dummy) 
-
+      def self.before_filter(dummy)
+        # dummy method
       end
 
       def http_accept_language
@@ -23,22 +26,9 @@ describe HttpAcceptLanguage::AutoLocale do
     end
 
     it "take a suitable locale" do
-      controller.set_locale
+      controller.send(:set_locale)
 
       expect(I18n.locale).to eq(:ja)
-    end
-  end
-
-  context "available languages not includes accept_languages" do
-    before do
-      I18n.available_locales = [:de]
-      I18n.default_locale = :fr
-    end
-
-    it "take default_locale" do
-      controller.set_locale
-
-      expect(I18n.locale).to eq(:fr)
     end
   end
 end
