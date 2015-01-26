@@ -1,4 +1,4 @@
-# HttpAcceptLanguage
+# HttpAcceptLanguage [![Build Status](https://travis-ci.org/iain/http_accept_language.svg?branch=master)](https://travis-ci.org/iain/http_accept_language)
 
 A gem which helps you detect the users preferred language, as sent by the "Accept-Language" HTTP header.
 
