@@ -6,7 +6,7 @@ require 'http_accept_language/middleware'
 describe HttpAcceptLanguage::AutoLocale do
   let(:controller_class) do
     Class.new do
-      def self.before_filter(dummy)
+      def self.around_action(dummy)
         # dummy method
       end
 
@@ -26,9 +26,11 @@ describe HttpAcceptLanguage::AutoLocale do
     end
 
     it "take a suitable locale" do
-      controller.send(:set_locale)
-
-      expect(I18n.locale).to eq(:ja)
+      expect(I18n.locale).to eq(:en)
+      controller.send(:use_locale) do
+        expect(I18n.locale).to eq(:ja)
+      end
+      expect(I18n.locale).to eq(:en)
     end
   end
 end
