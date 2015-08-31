@@ -53,6 +53,12 @@ class ApplicationController < ActionController::Base
 end
 ```
 
+Then set available locales in `config/application.rb`:
+
+```ruby
+config.i18n.available_locales = %w(en nl de fr)
+```
+
 To use the middleware in any Rack application, simply add the middleware:
 
 ``` ruby
