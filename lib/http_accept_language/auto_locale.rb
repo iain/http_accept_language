@@ -11,7 +11,9 @@ module HttpAcceptLanguage
     private
 
     def set_locale
-      I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
+      hal = http_accept_language
+      hal.header ||= I18n.default_locale.to_s
+      I18n.locale = hal.compatible_language_from(I18n.available_locales)
     end
   end
 end
