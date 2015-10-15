@@ -37,12 +37,25 @@ describe HttpAcceptLanguage::AutoLocale do
     end
   end
 
+  context "available languages do not include accept_languages" do
+    before do
+      I18n.available_locales = [:es]
+      I18n.default_locale = :es
+    end
+
+    it "set the locale to default" do
+      no_accept_language_controller.send(:set_locale)
+
+      expect(I18n.locale).to eq(:es)
+    end
+  end
+
   let(:no_accept_language_controller) { controller_class.new() }
 
   context "default locale is ja" do
     before do
-      I18n.default_locale = :ja
       I18n.available_locales = [:en, :ja]
+      I18n.default_locale = :ja
     end
 
     it "set the locale to default" do
