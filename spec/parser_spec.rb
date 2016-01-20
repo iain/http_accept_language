@@ -57,9 +57,14 @@ describe HttpAcceptLanguage::Parser do
     expect(parser.sanitize_available_locales([:en, :"en-US", :ca, :"ca-ES"])).to eq ["en", "en-US", "ca", "ca-ES"]
   end
 
-  it "should find most compatible language from user preferred" do
+  it "should find most compatible language from user preferred using the default matcher" do
     parser.header = 'ja,en-gb,en-us,fr-fr'
     expect(parser.language_region_compatible_from(%w{en-UK en-US ja-JP})).to eq "ja-JP"
+  end
+
+  it "should return nil when no languages match" do
+    parser.header = 'fr-fr,en-us,zh-cn'
+    expect(parser.language_region_compatible_from(%w{de-DE})).to be_nil
   end
 
 end
