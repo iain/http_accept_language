@@ -1,3 +1,4 @@
+require 'http_accept_language/matcher'
 require 'http_accept_language/parser'
 
 describe HttpAcceptLanguage::Parser do
