@@ -33,5 +33,5 @@ When /^I run `rake middleware`$/ do
 end
 
 Then /^the output should contain "(.*?)"$/ do |expected|
-  @rails.assert_partial_output(expected, @rails.all_output)
+  @rails.assert_partial_output(expected, @rails.all_commands.map { |c| c.output }.join("\n"))
 end
