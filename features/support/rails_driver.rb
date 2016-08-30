@@ -4,7 +4,12 @@ class RailsDriver
   include Aruba::Api
 
   def initialize
-    @aruba_io_wait_seconds = 10
+    Aruba.configure do |config|
+      config.io_wait_timeout = 60
+    end
+
+    setup_aruba
+
     # @announce_stdout = true
     # @announce_stderr = true
     # @announce_cmd = true
@@ -26,7 +31,7 @@ class RailsDriver
   end
 
   def app_exists?
-    in_current_dir do
+    cd(".") do
       File.exist?("#{app_name}/Gemfile")
     end
   end
@@ -76,18 +81,18 @@ class RailsDriver
   end
 
   def stop_rails
-    in_current_dir do
+    cd(".") do
       `cat tmp/pids/server.pid | xargs kill -9`
     end
   end
 
   def response
-    File.expand_path(File.join(current_dir, 'out.html'))
+    File.expand_path(File.join(expand_path("."), 'out.html'))
   end
 
   def output_should_contain(expected)
     actual = File.open(response, 'r:utf-8').read
-    actual.should include expected
+    expect(actual).to include expected
   end
 
 end
