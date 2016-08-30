@@ -92,7 +92,7 @@ class RailsDriver
 
   def output_should_contain(expected)
     actual = File.open(response, 'r:utf-8').read
-    actual.should include expected
+    expect(actual).to include expected
   end
 
 end
