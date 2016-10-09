@@ -34,7 +34,7 @@ You can easily set the locale used for i18n in a before-filter:
 
 ```ruby
 class SomeController < ApplicationController
-  before_filter :set_locale
+  before_action :set_locale
 
   private
     def set_locale
