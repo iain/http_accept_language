@@ -86,6 +86,19 @@ class YourAwesomeApp
 end
 ```
 
+If, on the other hand, you don't want to use the middleware in Rails (e.g. if you don't need to use it on every request), you can remove it by putting the following line in an initializer:
+
+``` ruby
+Rails.configuration.middleware.delete HttpAcceptLanguage::Middleware
+```
+
+You then have to create the parser manually when you need it:
+
+``` ruby
+parser = HttpAcceptLanguage::Parser.new(request.env["HTTP_ACCEPT_LANGUAGE"])
+locale = parser.preferred_language_from(I18n.available_locales) || I18n.default_locale
+```
+
 ## Available methods
 
 * **user_preferred_languages**:
