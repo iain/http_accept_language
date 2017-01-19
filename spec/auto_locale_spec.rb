@@ -11,7 +11,7 @@ describe HttpAcceptLanguage::AutoLocale do
         @header = header
       end
 
-      def self.before_filter(dummy)
+      def self.before_action(dummy)
         # dummy method
       end
 
