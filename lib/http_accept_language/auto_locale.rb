@@ -5,7 +5,11 @@ module HttpAcceptLanguage
     extend ActiveSupport::Concern
 
     included do
-      before_filter :set_locale
+      if respond_to?(:prepend_before_action)
+        prepend_before_action :set_locale
+      else
+        prepend_before_filter :set_locale
+      end
     end
 
     private
