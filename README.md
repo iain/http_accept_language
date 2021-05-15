@@ -34,12 +34,13 @@ You can easily set the locale used for i18n in a before-filter:
 
 ```ruby
 class SomeController < ApplicationController
-  before_filter :set_locale
+  before_action :set_locale
 
   private
-    def set_locale
-      I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
-    end
+  
+  def set_locale
+    I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
+  end
 end
 ```
 
@@ -49,7 +50,7 @@ If you want to enable this behavior by default in your controllers, you can just
 class ApplicationController < ActionController::Base
   include HttpAcceptLanguage::AutoLocale
 
-#...
+  # ...
 end
 ```
 
@@ -71,7 +72,6 @@ Then you can access it from `env`:
 
 ``` ruby
 class YourAwesomeApp
-
   def initialize(app)
     @app = app
   end
@@ -82,7 +82,6 @@ class YourAwesomeApp
 
     [200, {}, ["Oh, you speak #{language}!"]]
   end
-
 end
 ```
 
