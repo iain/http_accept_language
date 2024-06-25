@@ -5,3 +5,8 @@ pkg/*
 .rvmrc
 log/*.log
 tmp/
+
+# rspec failure tracking
+.rspec_status
+
+/coverage/

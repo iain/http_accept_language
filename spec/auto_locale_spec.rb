@@ -1,22 +1,9 @@
-require 'i18n'
-require 'http_accept_language/auto_locale'
-require 'http_accept_language/parser'
-require 'http_accept_language/middleware'
-
-describe HttpAcceptLanguage::AutoLocale do
+RSpec.describe HttpAcceptLanguage::AutoLocale do
   let(:controller_class) do
-    Class.new do
+    Class.new(ActionController::Base) do
       def initialize(header = nil)
         super()
         @header = header
-      end
-
-      def self.prepend_before_action(dummy)
-        # dummy method
-      end
-
-      def self.prepend_before_filter(dummy)
-        # dummy method
       end
 
       def http_accept_language
@@ -54,7 +41,7 @@ describe HttpAcceptLanguage::AutoLocale do
     end
   end
 
-  let(:no_accept_language_controller) { controller_class.new() }
+  let(:no_accept_language_controller) { controller_class.new }
 
   context "default locale is ja" do
     before do

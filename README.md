@@ -1,10 +1,15 @@
-# HttpAcceptLanguage [![Build Status](https://travis-ci.org/iain/http_accept_language.svg?branch=master)](https://travis-ci.org/iain/http_accept_language)
+# HttpAcceptLanguage
 
-A gem which helps you detect the users preferred language, as sent by the "Accept-Language" HTTP header.
+A gem which helps you detect the users preferred language, as sent by the
+"Accept-Language" HTTP header.
 
-The algorithm is based on [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html), with one exception:
-when a user requests "en-US" and "en" is an available language, "en" is deemed compatible with "en-US".
-The RFC specifies that the requested language must either exactly match the available language or must exactly match a prefix of the available language. This means that when the user requests "en" and "en-US" is available, "en-US" would be compatible, but not the other way around. This is usually not what you're looking for.
+The algorithm is based on [RFC 2616], with one exception: when a user requests
+`en-US` and `en` is an available language, `en` is deemed compatible with
+`en-US`. The RFC specifies that the requested language must either exactly match
+the available language or must exactly match a prefix of the available language.
+This means that when the user requests `en` and `en-US` is available, `en-US`
+would be compatible, but not the other way around. This is usually not what
+you're looking for.
 
 Since version 2.0, this gem is Rack middleware.
 
@@ -30,11 +35,11 @@ class SomeController < ApplicationController
 end
 ```
 
-You can easily set the locale used for i18n in a before-filter:
+You can easily set the locale used for i18n with a filter:
 
 ```ruby
 class SomeController < ApplicationController
-  before_filter :set_locale
+  before_action :set_locale
 
   private
     def set_locale
@@ -43,12 +48,11 @@ class SomeController < ApplicationController
 end
 ```
 
-If you want to enable this behavior by default in your controllers, you can just include the provided concern:
+To enable this behavior by default, include the provided concern:
 
 ```ruby
 class ApplicationController < ActionController::Base
   include HttpAcceptLanguage::AutoLocale
-
 #...
 end
 ```
@@ -88,21 +92,21 @@ end
 
 ## Available methods
 
-* **user_preferred_languages**:
-  Returns a sorted array based on user preference in HTTP_ACCEPT_LANGUAGE, sanitized and all.
-* **preferred_language_from(languages)**:
-  Finds the locale specifically requested by the browser
-* **compatible_language_from(languages)**:
-  Returns the first of the user_preferred_languages that is compatible with the available locales.
+* **user_preferred_languages**: Returns a sorted array based on user preference
+  in `HTTP_ACCEPT_LANGUAGE`, sanitized and all.
+* **preferred_language_from(languages)**: Finds the locale specifically
+  requested by the browser.
+* **compatible_language_from(languages)**: Returns the first of the
+  `user_preferred_languages` that is compatible with the available locales.
   Ignores region.
-* **sanitize_available_locales(languages)**:
-  Returns a supplied list of available locals without any extra application info
-  that may be attached to the locale for storage in the application.
-* **language_region_compatible_from(languages)**:
-  Returns the first of the user preferred languages that is
-  also found in available languages.  Finds best fit by matching on
-  primary language first and secondarily on region.  If no matching region is
-  found, return the first language in the group matching that primary language.
+* **sanitize_available_locales(languages)**: Returns a supplied list of
+  available locales without any extra application info that may be attached to
+  the locale for storage in the application.
+* **language_region_compatible_from(languages)**: Returns the first of the user
+  preferred languages that is also found in available languages.  Finds best fit
+  by matching on primary language first and secondarily on region.  If no
+  matching region is found, return the first language in the group matching that
+  primary language.
 
 ## Installation
 
@@ -122,4 +126,6 @@ Run `bundle install` to install it.
 
 ---
 
-Released under the MIT license
+Released under the MIT license.
+
+[RFC 2616]: http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html

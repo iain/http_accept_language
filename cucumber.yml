@@ -1,2 +1,0 @@
-default: --format progress --strict --tags ~@wip
-wip: --format pretty --wip --tags @wip
