@@ -39,6 +39,21 @@ describe "Rack integration" do
     expect(env.http_accept_language.user_preferred_languages).to eq %w{de}
   end
 
+  it "defines env.http_accept_language by default" do
+    env = { "HTTP_ACCEPT_LANGUAGE" => "en" }
+    HttpAcceptLanguage::Middleware.new(lambda { |env| env }).call(env)
+    expect(env.singleton_methods).to eq [:http_accept_language]
+    expect(env.http_accept_language).to equal env["http_accept_language.parser"]
+  end
+
+  it "doesn't define env.http_accept_language with define_env_method: false" do
+    env = { "HTTP_ACCEPT_LANGUAGE" => "en" }
+    middleware = HttpAcceptLanguage::Middleware.new(lambda { |env| env }, define_env_method: false)
+    middleware.call(env)
+    expect(env.singleton_methods).to be_empty
+    expect(env["http_accept_language.parser"].user_preferred_languages).to eq %w{en}
+  end
+
   it "decodes the HTTP_ACCEPT_LANGUAGE header" do
     request_with_header 'en-us,en-gb;q=0.8,en;q=0.6,es-419'
     expect(r['user_preferred_languages']).to eq %w{en-US es-419 en-GB en}

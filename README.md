@@ -86,6 +86,23 @@ class YourAwesomeApp
 end
 ```
 
+`env.http_accept_language` is a singleton method that the middleware defines on
+every request's `env`, so every request creates a singleton class for a Hash.
+Ruby's JIT compilers optimize Hash method calls by assuming that Hash objects
+don't have singleton classes, and give up those optimizations once they do.
+If you only use `env["http_accept_language.parser"]` (as the Rails controller
+helper does), you can skip it:
+
+``` ruby
+use HttpAcceptLanguage::Middleware, define_env_method: false
+```
+
+In Rails, set this in `config/application.rb`:
+
+``` ruby
+config.http_accept_language.define_env_method = false
+```
+
 ## Available methods
 
 * **user_preferred_languages**:
